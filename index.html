@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Luxéra — Premium Curated Collection</title>
+<meta name="description" content="Discover handpicked luxury products curated for the discerning few.">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✦</text></svg>">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="top-nav">
+  <div class="nav-logo">Luxéra</div>
+  <div class="nav-tabs">
+    <button class="nav-tab store active" onclick="switchView('store', this)">Storefront</button>
+    <button class="nav-tab dash" onclick="switchView('dash', this)">⚙ Dashboard</button>
+  </div>
+  <div class="nav-badge">Admin</div>
+</nav>
+
+<!-- ===== STOREFRONT PANEL ===== -->
+<div class="panel active" id="panel-store">
+
+  <!-- Hero -->
+  <div class="store-hero">
+    <div class="hero-bg"></div>
+    <div class="hero-lines"></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Curated Collection</div>
+      <h1 class="hero-title">Discover <em>Exceptional</em><br>Products</h1>
+      <p class="hero-sub">Handpicked for the discerning few</p>
+      <button class="hero-cta" onclick="scrollToProducts()">Explore Collection <span class="hero-cta-arrow">→</span></button>
+    </div>
+  </div>
+
+  <!-- Category Filter -->
+  <div class="cat-bar">
+    <button class="cat-btn active" onclick="filterCat(this,'all')">All Products</button>
+    <button class="cat-btn" onclick="filterCat(this,'watches')">Watches</button>
+    <button class="cat-btn" onclick="filterCat(this,'fragrance')">Fragrance</button>
+    <button class="cat-btn" onclick="filterCat(this,'tech')">Tech</button>
+    <button class="cat-btn" onclick="filterCat(this,'skincare')">Skincare</button>
+    <button class="cat-btn" onclick="filterCat(this,'accessories')">Accessories</button>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="products-section" id="products-anchor">
+    <div class="section-header">
+      <h2 class="section-title">Featured Selections</h2>
+      <div class="section-count" id="prod-count">0 products</div>
+    </div>
+    <div class="products-grid" id="store-grid">
+      <!-- injected by JS -->
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="store-footer">
+    <div class="footer-logo">Luxéra</div>
+    <p class="footer-text">Premium Curated Affiliate Collection · All purchases completed on partner sites</p>
+    <p class="footer-text" style="margin-top:6px;font-size:8px;opacity:0.5;">This site contains affiliate links. We may earn a commission at no extra cost to you.</p>
+  </footer>
+
+</div><!-- /panel-store -->
+
+<!-- ===== DASHBOARD PANEL ===== -->
+<div class="panel" id="panel-dash">
+  <div class="dash-layout">
+
+    <!-- Sidebar -->
+    <aside class="dash-sidebar">
+      <div class="dash-logo-area">
+        <div class="dash-logo">Luxéra</div>
+        <div class="dash-role">Admin Dashboard</div>
+      </div>
+      <nav class="sidebar-nav">
+        <div class="sidebar-item active" onclick="switchDash(this,'overview')">
+          <span class="sidebar-icon">◈</span> Overview
+        </div>
+        <div class="sidebar-item" onclick="switchDash(this,'add')">
+          <span class="sidebar-icon">＋</span> Add Product
+        </div>
+        <div class="sidebar-item" onclick="switchDash(this,'manage')">
+          <span class="sidebar-icon">≡</span> Manage Products
+        </div>
+        <div class="sidebar-item" onclick="switchDash(this,'arrange')">
+          <span class="sidebar-icon">⋮⋮</span> Drag &amp; Arrange
+        </div>
+        <div class="sidebar-item" onclick="switchDash(this,'analytics')">
+          <span class="sidebar-icon">↗</span> Analytics
+        </div>
+        <div class="sidebar-divider"></div>
+        <div class="sidebar-item" onclick="switchDash(this,'settings')">
+          <span class="sidebar-icon">⚙</span> Settings
+        </div>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="dash-main">
+
+      <!-- OVERVIEW -->
+      <div id="dash-overview" class="dash-page">
+        <div class="dash-topbar">
+          <div class="page-title">Overview</div>
+          <div class="topbar-actions">
+            <button class="btn-outline" onclick="switchDash(document.querySelectorAll('.sidebar-item')[1],'add')">+ Add Product</button>
+            <button class="btn-gold">Export Report</button>
+          </div>
+        </div>
+        <div class="dash-content">
+          <div class="stats-row">
+            <div class="stat-card"><div class="stat-label">Total Products</div><div class="stat-value" id="stat-total">0</div><div class="stat-sub">In your store</div></div>
+            <div class="stat-card"><div class="stat-label">Total Clicks</div><div class="stat-value">4,291</div><div class="stat-sub">↑ 18% vs last month</div></div>
+            <div class="stat-card"><div class="stat-label">Est. Commission</div><div class="stat-value">$1,240</div><div class="stat-sub">↑ $380 this month</div></div>
+            <div class="stat-card"><div class="stat-label">Conversions</div><div class="stat-value">3.7%</div><div class="stat-sub">Industry avg: 2.1%</div></div>
+          </div>
+          <div class="analytics-grid">
+            <div class="analytics-card">
+              <div class="analytics-title">Weekly Clicks</div>
+              <div class="bar-chart chart-wrap" id="mini-chart"></div>
+            </div>
+            <div class="analytics-card">
+              <div class="analytics-title">Top Products by Clicks</div>
+              <div class="top-products-list" id="top-list"></div>
+            </div>
+          </div>
+          <div class="section-heading">Recent Activity</div>
+          <div id="recent-list"></div>
+        </div>
+      </div>
+
+      <!-- ADD PRODUCT -->
+      <div id="dash-add" class="dash-page" style="display:none">
+        <div class="dash-topbar">
+          <div class="page-title">Add New Product</div>
+          <div class="topbar-actions">
+            <button class="btn-outline" onclick="clearForm()">Clear</button>
+            <button class="btn-gold" onclick="saveProduct()">Publish Product</button>
+          </div>
+        </div>
+        <div class="dash-content">
+          <div class="section-heading">Product Media</div>
+          <div class="upload-zone" id="dropzone"
+            ondragover="handleDragOver(event)"
+            ondragleave="handleDragLeave(event)"
+            ondrop="handleDrop(event)"
+            onclick="triggerUpload()">
+            <div class="upload-icon" id="upload-icon">🖼️</div>
+            <div class="upload-title" id="upload-title">Drag &amp; Drop Product Image</div>
+            <div class="upload-sub" id="upload-sub">or click to browse files</div>
+            <div class="upload-formats">
+              <span class="format-tag">JPG</span>
+              <span class="format-tag">PNG</span>
+              <span class="format-tag">WEBP</span>
+              <span class="format-tag">SVG</span>
+            </div>
+            <input type="file" id="file-input" style="display:none" accept="image/*" onchange="handleFileSelect(event)">
+          </div>
+          <br>
+          <div class="section-heading">Product Details</div>
+          <div class="product-form">
+            <div class="form-grid">
+              <div class="form-group">
+                <label class="form-label">Brand Name</label>
+                <input class="form-input" id="f-brand" placeholder="e.g. Rolex, Chanel" type="text">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Product Name</label>
+                <input class="form-input" id="f-name" placeholder="e.g. Submariner Date" type="text">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Price (USD)</label>
+                <input class="form-input" id="f-price" placeholder="9,500" type="text">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Category</label>
+                <select class="form-input" id="f-cat">
+                  <option value="">Select category...</option>
+                  <option value="watches">Watches</option>
+                  <option value="fragrance">Fragrance</option>
+                  <option value="tech">Tech</option>
+                  <option value="skincare">Skincare</option>
+                  <option value="accessories">Accessories</option>
+                </select>
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Short Description</label>
+                <input class="form-input" id="f-desc" placeholder="Brief product description..." type="text">
+              </div>
+              <div class="form-group full">
+                <label class="form-label">Affiliate Link (Buy Now URL)</label>
+                <input class="form-input" id="f-link" placeholder="https://partner-site.com/product?ref=your_code" type="url">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Commission Rate (%)</label>
+                <input class="form-input" id="f-commission" placeholder="8" type="number" min="0" max="100">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Emoji / Icon</label>
+                <input class="form-input" id="f-emoji" placeholder="⌚" type="text">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Badge Label (optional)</label>
+                <input class="form-input" id="f-badge" placeholder="New, Bestseller, Rare..." type="text">
+              </div>
+              <div class="form-group">
+                <label class="form-label">Star Rating (1–5)</label>
+                <input class="form-input" id="f-rating" placeholder="4.9" type="number" min="1" max="5" step="0.1">
+              </div>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Featured Product</span>
+              <div class="toggle on" id="t-featured" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Show Badge Label</span>
+              <div class="toggle on" id="t-badge" onclick="this.classList.toggle('on')"></div>
+            </div>
+            <div class="toggle-row">
+              <span class="toggle-label">Publish Immediately</span>
+              <div class="toggle on" id="t-publish" onclick="this.classList.toggle('on')"></div>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn-gold" onclick="saveProduct()" style="flex:1;padding:14px;font-size:10px;letter-spacing:2px">Publish Product to Store</button>
+          </div>
+          <div id="save-msg" class="success-msg" style="display:none">✓ Product published successfully to your storefront</div>
+        </div>
+      </div>
+
+      <!-- MANAGE PRODUCTS -->
+      <div id="dash-manage" class="dash-page" style="display:none">
+        <div class="dash-topbar">
+          <div class="page-title">Manage Products</div>
+          <div class="topbar-actions">
+            <button class="btn-gold" onclick="switchDash(document.querySelectorAll('.sidebar-item')[1],'add')">+ Add Product</button>
+          </div>
+        </div>
+        <div class="dash-content">
+          <div class="table-wrap">
+            <table class="products-table">
+              <thead>
+                <tr>
+                  <th></th>
+                  <th>Product</th>
+                  <th>Category</th>
+                  <th>Price</th>
+                  <th>Commission</th>
+                  <th>Status</th>
+                  <th>Affiliate Link</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="manage-tbody"></tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- DRAG & ARRANGE -->
+      <div id="dash-arrange" class="dash-page" style="display:none">
+        <div class="dash-topbar">
+          <div class="page-title">Drag &amp; Arrange</div>
+          <div class="topbar-actions">
+            <button class="btn-gold" onclick="saveOrder()">Save Order</button>
+          </div>
+        </div>
+        <div class="dash-content">
+          <div class="arrange-layout">
+            <div>
+              <div class="section-heading">Product Order — drag to reorder</div>
+              <div class="drag-list" id="drag-list"></div>
+            </div>
+            <div>
+              <div class="section-heading">Live Preview</div>
+              <div class="preview-panel">
+                <div class="preview-header">
+                  <span class="preview-title">Store Preview</span>
+                  <span class="preview-live"><span class="live-dot"></span>Live</span>
+                </div>
+                <div id="preview-items"></div>
+              </div>
+            </div>
+          </div>
+          <div id="order-msg" class="success-msg" style="display:none">✓ Product order saved and applied to storefront</div>
+        </div>
+      </div>
+
+      <!-- ANALYTICS -->
+      <div id="dash-analytics" class="dash-page" style="display:none">
+        <div class="dash-topbar">
+          <div class="page-title">Analytics</div>
+          <div class="topbar-actions">
+            <button class="btn-outline">Last 30 Days ▾</button>
+          </div>
+        </div>
+        <div class="dash-content">
+          <div class="stats-row">
+            <div class="stat-card"><div class="stat-label">Page Views</div><div class="stat-value">12,840</div><div class="stat-sub">↑ 24% vs last month</div></div>
+            <div class="stat-card"><div class="stat-label">Affiliate Clicks</div><div class="stat-value">4,291</div><div class="stat-sub">33.4% click rate</div></div>
+            <div class="stat-card"><div class="stat-label">Conversions</div><div class="stat-value">159</div><div class="stat-sub">3.7% conversion rate</div></div>
+            <div class="stat-card"><div class="stat-label">Revenue Share</div><div class="stat-value">$1,240</div><div class="stat-sub">Avg $7.80/conversion</div></div>
+          </div>
+          <div class="analytics-grid">
+            <div class="analytics-card">
+              <div class="analytics-title">Daily Clicks — Last 7 Days</div>
+              <div class="bar-chart chart-wrap" id="big-chart"></div>
+            </div>
+            <div class="analytics-card">
+              <div class="analytics-title">Top Performers</div>
+              <div class="top-products-list" id="top-list2"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SETTINGS -->
+      <div id="dash-settings" class="dash-page" style="display:none">
+        <div class="dash-topbar">
+          <div class="page-title">Settings</div>
+          <div class="topbar-actions">
+            <button class="btn-gold" onclick="saveSettings()">Save Changes</button>
+          </div>
+        </div>
+        <div class="dash-content">
+          <div class="section-heading">Store Identity</div>
+          <div class="product-form">
+            <div class="form-grid">
+              <div class="form-group"><label class="form-label">Store Name</label><input class="form-input" id="s-name" value="Luxéra" type="text"></div>
+              <div class="form-group"><label class="form-label">Tagline</label><input class="form-input" id="s-tagline" value="Curated for the discerning few" type="text"></div>
+              <div class="form-group full"><label class="form-label">Default Affiliate Tag / Tracking ID</label><input class="form-input" id="s-tag" placeholder="your_tag_id_here" type="text"></div>
+            </div>
+          </div>
+          <div class="section-heading">Display Preferences</div>
+          <div class="product-form">
+            <div class="toggle-row"><span class="toggle-label">Show Product Prices</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><span class="toggle-label">Show Star Ratings</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><span class="toggle-label">Show Commission Badge</span><div class="toggle" onclick="this.classList.toggle('on')"></div></div>
+            <div class="toggle-row"><span class="toggle-label">Open Affiliate Links in New Tab</span><div class="toggle on" onclick="this.classList.toggle('on')"></div></div>
+          </div>
+          <div id="settings-msg" class="success-msg" style="display:none">✓ Settings saved successfully</div>
+        </div>
+      </div>
+
+    </main>
+  </div>
+</div><!-- /panel-dash -->
+
+<script src="js/products.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
